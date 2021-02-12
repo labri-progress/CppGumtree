@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Tree.h"
 
-
 Tree::Tree()
 {
 	m_parent = nullptr;
@@ -39,6 +38,47 @@ std::string Tree::value()
 std::string Tree::label()
 {
 	return m_label;
+}
+
+bool Tree::isChild(Tree * Child)
+{
+	for (Tree* ch : m_childrens)
+	{
+		if (ch == Child)
+			return true;
+	}
+	return false;
+}
+
+int Tree::height(Tree* node)
+{
+	if (node->getChildrens().empty())
+	{
+		return 1;
+	}
+	else
+	{
+		std::deque<Tree*> childrens;
+		std::deque<int> heightDeque;
+		if (!node->getChildrens().empty())
+		{
+			childrens = node->getChildrens();
+		}
+		while (!childrens.empty())
+		{
+			heightDeque.push_front(height(childrens.front()));
+			childrens.pop_front();
+		}
+		int max = 0;
+		for (int elem : heightDeque)
+		{
+			if (elem > max)
+			{
+				max = elem;
+			}
+		}
+		return max + 1;
+	}
 }
 
 void Tree::updateValue(Tree * n, std::string v)

@@ -32,6 +32,8 @@ public:
 	void setLabel(std::string l);
 	std::string value();
 	std::string label();
+	bool isChild(Tree* Child);
+	int height(Tree* node);
 
 private:
 	std::string m_value;
