@@ -16,7 +16,9 @@ public:
 	std::vector<Tree*> pop();
 	void open(Tree* t);
 
+	int size();
 	void print();
+	bool contains(Tree* node);
 	
 private:
 	std::multimap<int, Tree*, std::greater<int>> m_nodes;

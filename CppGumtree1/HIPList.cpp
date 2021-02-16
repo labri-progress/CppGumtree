@@ -64,6 +64,11 @@ void HIPList::open(Tree* t)
 	}
 }
 
+int HIPList::size()
+{
+	return m_nodes.size();
+}
+
 void HIPList::print()
 {
 	std::multimap<int, Tree*>::iterator it;
@@ -71,4 +76,9 @@ void HIPList::print()
 	{
 		std::cout << "(" << (*it).first << ", " << (*it).second->label() << ", " << (*it).second->value() << ")" << std::endl;
 	}
+}
+
+bool HIPList::contains(Tree* node)
+{
+	return 	(std::find_if(m_nodes.begin(), m_nodes.end(), [node](const auto& mo) {return mo.second == node; }) != m_nodes.end());
 }
