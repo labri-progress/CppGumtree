@@ -1,5 +1,9 @@
 #pragma once
 #include <map>
+#include <iostream>
+#include <vector>
+#include <iterator>
+#include <algorithm>
 #include "Tree.h"
 
 class HIPList
@@ -7,8 +11,14 @@ class HIPList
 public:
 	HIPList();
 
-	void push(Tree* l, int h);
+	void push(int h, Tree* l);
+	int peekMax();
+	std::vector<Tree*> pop();
+	void open(Tree* t);
+
+	void print();
+	
 private:
-	std::map<int, Tree*> m_nodes;
+	std::multimap<int, Tree*, std::greater<int>> m_nodes;
 };
 
