@@ -8,7 +8,7 @@
 int main(int argc, char* argv[])
 {
 // Test5 Height-indexed priority list
-
+#if 0
 	HIPList hipList;
 	Tree* t0 = new Tree("CompilationUnit", "");
 	Tree* t1 = new Tree("TypeDeclaration", "");
@@ -105,6 +105,24 @@ int main(int argc, char* argv[])
 	t12->setParent(t10);
 	hipList.open(t10);
 	hipList.print();
+#endif
+
+	Tree* t11 = new Tree("A", "A");
+	Tree* t12 = new Tree("B", "B");
+	Tree* t13 = new Tree("C", "C");
+	Tree* t14 = new Tree("D", "D");
+	Tree* t15 = new Tree("E", "E");
+	t11->addChildren(t12);
+	t12->addChildren(t13);
+	t12->addChildren(t14);
+	t14->addChildren(t15);
+	std::vector<Tree*> descendants = t11->getDescendants();
+
+	std::wcout << "descendants: " << std::endl;
+	for (Tree* element : descendants)
+	{
+		std::cout << "(" << element->label() << ", " << element->value() << ")" << std::endl;
+	}
 
 	return 0;
 }

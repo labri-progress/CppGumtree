@@ -81,6 +81,77 @@ int Tree::height(Tree* node)
 	}
 }
 
+bool Tree::isomorphic(Tree* t)
+{
+	if (label() != t->label() && value() != t->value())
+	{
+		return false;
+	}
+
+	if (getChildrens().size() != t->getChildrens().size())
+	{
+		return false;
+	}
+
+	for (int i = 0; i < getChildrens().size(); ++i)
+	{
+		bool childIsomorphic = getChild(i)->isomorphic(t->getChild(i));
+		if (!childIsomorphic)
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+std::vector<Tree*> Tree::preorder(Tree* t)
+{
+	std::vector<Tree*> nodes;
+	preorder(t, nodes);
+	return nodes;
+}
+
+void Tree::preorder(Tree* t, std::vector<Tree*>& nodes)
+{
+	nodes.push_back(t);
+
+	if (t->hasChildrens())
+	{
+		for (Tree* element : t->getChildrens())
+		{
+			preorder(element, nodes);
+		}
+	}
+}
+
+std::vector<Tree*> Tree::postorder(Tree* t)
+{
+	std::vector<Tree*> nodes;
+	postorder(t, nodes);
+	return nodes;
+}
+
+void Tree::postorder(Tree* t, std::vector<Tree*>& nodes)
+{
+	if (t->hasChildrens())
+	{
+		for (Tree* element : t->getChildrens())
+		{
+			postorder(element, nodes);
+		}
+	}
+	nodes.push_back(t);
+}
+
+std::vector<Tree*> Tree::getDescendants()
+{
+	std::vector<Tree*> descendants = this->preorder(this);
+	std::vector<Tree*>::iterator it = descendants.begin();
+	descendants.erase(it);
+	return descendants;
+}
+
 void Tree::updateValue(Tree * n, std::string v)
 {
 	n->setValue(v);
@@ -229,6 +300,15 @@ int Tree::nbChildrens()
 Tree * Tree::getParent()
 {
 	return m_parent;
+}
+
+Tree* Tree::getChild(int i)
+{
+	if (i < m_childrens.size())
+	{
+		return m_childrens.at(i);
+	}
+	return nullptr;
 }
 
 std::deque<Tree*> Tree::getChildrens()

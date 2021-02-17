@@ -172,6 +172,152 @@ TEST(TestTree, TestHeight)
 	EXPECT_EQ(t0->height(t0), 5);
 }
 
+TEST(TestTree, TestIsomorphic1)
+{
+//	t11	(A, A)						t21(F, F)
+//		|								|		\
+//	t12	(B, B)						t22	(G, G)	t23(A, A)
+//		|		\						|			|
+//	t13	(C, C)	t14(D, D)			t24(H, H)	t25(B, B)
+//					|								|		\
+//				t15(E, E)						t26(C, C)	t27(D, D)
+//																|
+//															t28(E, E)
+// t11.isomorphic(t21) -> false
+// t11.isomorphic(t23) -> true
+	Tree* t11 = new Tree("A", "A");
+	Tree* t12 = new Tree("B", "B");
+	Tree* t13 = new Tree("C", "C");
+	Tree* t14 = new Tree("D", "D");
+	Tree* t15 = new Tree("E", "E");
+	t11->addChildren(t12);
+	t12->addChildren(t13);
+	t12->addChildren(t14);
+	t14->addChildren(t15);
+	Tree* t21 = new Tree("F", "F");
+	Tree* t22 = new Tree("G", "G");
+	Tree* t23 = new Tree("A", "A");
+	Tree* t24 = new Tree("H", "H");
+	Tree* t25 = new Tree("B", "B");
+	Tree* t26 = new Tree("C", "C");
+	Tree* t27 = new Tree("D", "D");
+	Tree* t28 = new Tree("E", "E");
+	t21->addChildren(t22);
+	t21->addChildren(t23);
+	t22->addChildren(t24);
+	t23->addChildren(t25);
+	t25->addChildren(t26);
+	t25->addChildren(t27);
+	t27->addChildren(t28);
+	EXPECT_TRUE(t11->isomorphic(t23));
+	EXPECT_FALSE(t11->isomorphic(t21));
+	EXPECT_FALSE(t11->isomorphic(t25));
+}
+
+TEST(TestTree, TestPreorder)
+{
+	//	t11	(A, A)						t21(F, F)
+//		|								|		\
+//	t12	(B, B)						t22	(G, G)	t23(A, A)
+//		|		\						|			|
+//	t13	(C, C)	t14(D, D)			t24(H, H)	t25(B, B)
+//					|								|		\
+//				t15(E, E)						t26(C, C)	t27(D, D)
+//																|
+//															t28(E, E)
+	Tree* t11 = new Tree("A", "A");
+	Tree* t12 = new Tree("B", "B");
+	Tree* t13 = new Tree("C", "C");
+	Tree* t14 = new Tree("D", "D");
+	Tree* t15 = new Tree("E", "E");
+	t11->addChildren(t12);
+	t12->addChildren(t13);
+	t12->addChildren(t14);
+	t14->addChildren(t15);
+	std::vector<Tree*> preorderNodes = t11->preorder(t11);
+	std::vector<Tree*> preorderNodesCompare;
+	preorderNodesCompare.push_back(t11);
+	preorderNodesCompare.push_back(t12);
+	preorderNodesCompare.push_back(t14);
+	preorderNodesCompare.push_back(t15);
+	preorderNodesCompare.push_back(t13);
+	EXPECT_EQ(preorderNodes.size(), 5);
+	EXPECT_EQ(preorderNodes.size(), preorderNodesCompare.size());
+	for (int i = 0; i < preorderNodes.size(); ++i)
+	{
+		EXPECT_EQ(preorderNodes.at(i), preorderNodesCompare.at(i));
+	}
+}
+
+TEST(TestTree, TestPostorder)
+{
+	//	t11	(A, A)						t21(F, F)
+//		|								|		\
+//	t12	(B, B)						t22	(G, G)	t23(A, A)
+//		|		\						|			|
+//	t13	(C, C)	t14(D, D)			t24(H, H)	t25(B, B)
+//					|								|		\
+//				t15(E, E)						t26(C, C)	t27(D, D)
+//																|
+//															t28(E, E)
+	Tree* t11 = new Tree("A", "A");
+	Tree* t12 = new Tree("B", "B");
+	Tree* t13 = new Tree("C", "C");
+	Tree* t14 = new Tree("D", "D");
+	Tree* t15 = new Tree("E", "E");
+	t11->addChildren(t12);
+	t12->addChildren(t13);
+	t12->addChildren(t14);
+	t14->addChildren(t15);
+	std::vector<Tree*> postorderNodes = t11->postorder(t11);
+	std::vector<Tree*> postorderNodesCompare;
+	postorderNodesCompare.push_back(t15);
+	postorderNodesCompare.push_back(t14);
+	postorderNodesCompare.push_back(t13);
+	postorderNodesCompare.push_back(t12);
+	postorderNodesCompare.push_back(t11);
+	EXPECT_EQ(postorderNodes.size(), 5);
+	EXPECT_EQ(postorderNodes.size(), postorderNodesCompare.size());
+	for (int i = 0; i < postorderNodes.size(); ++i)
+	{
+		EXPECT_EQ(postorderNodes.at(i), postorderNodesCompare.at(i));
+	}
+}
+
+TEST(TestTree, TestDescendants)
+{
+	//	t11	(A, A)						t21(F, F)
+//		|								|		\
+//	t12	(B, B)						t22	(G, G)	t23(A, A)
+//		|		\						|			|
+//	t13	(C, C)	t14(D, D)			t24(H, H)	t25(B, B)
+//					|								|		\
+//				t15(E, E)						t26(C, C)	t27(D, D)
+//																|
+//															t28(E, E)
+	Tree* t11 = new Tree("A", "A");
+	Tree* t12 = new Tree("B", "B");
+	Tree* t13 = new Tree("C", "C");
+	Tree* t14 = new Tree("D", "D");
+	Tree* t15 = new Tree("E", "E");
+	t11->addChildren(t12);
+	t12->addChildren(t13);
+	t12->addChildren(t14);
+	t14->addChildren(t15);
+	std::vector<Tree*> descendants = t11->getDescendants();
+	std::vector<Tree*> descendantsCompare;
+	descendantsCompare.push_back(t12);
+	descendantsCompare.push_back(t14);
+	descendantsCompare.push_back(t15);
+	descendantsCompare.push_back(t13);
+	EXPECT_EQ(descendants.size(), 4);
+	EXPECT_EQ(descendants.size(), descendantsCompare.size());
+	for (int i = 0; i < descendants.size(); ++i)
+	{
+		EXPECT_EQ(descendants.at(i), descendantsCompare.at(i));
+	}
+}
+
 TEST(TestHIPList, TestPeekMax)
 {
 	HIPList hipList;

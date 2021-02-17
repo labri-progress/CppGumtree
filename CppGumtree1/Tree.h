@@ -24,6 +24,7 @@ public:
 	void removeFirstChildren();
 	int nbChildrens();
 	Tree* getParent();
+	Tree* getChild(int i);
 	std::deque<Tree*> getChildrens();
 	void pushFrontChildrens(Tree* tree);
 	void popFrontChildrens();
@@ -34,6 +35,12 @@ public:
 	std::string label();
 	bool isChild(Tree* Child);
 	int height(Tree* node);
+	bool isomorphic(Tree* t);
+	std::vector<Tree*> preorder(Tree* t);
+	void preorder(Tree* t, std::vector<Tree*>& nodes);
+	std::vector<Tree*> postorder(Tree* t);
+	void postorder(Tree* t, std::vector<Tree*>& nodes);
+	std::vector<Tree*> getDescendants();
 
 private:
 	std::string m_value;
