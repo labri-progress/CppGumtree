@@ -151,11 +151,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Algorithm1.h" />
     <ClInclude Include="HIPList.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Tree.h" />
+    <ClInclude Include="TreePair.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Algorithm1.cpp" />
     <ClCompile Include="CppGumtree1.cpp" />
     <ClCompile Include="HIPList.cpp" />
     <ClCompile Include="pch.cpp">
@@ -165,6 +168,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Tree.cpp" />
+    <ClCompile Include="TreePair.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -41,6 +41,8 @@ public:
 	std::vector<Tree*> postorder(Tree* t);
 	void postorder(Tree* t, std::vector<Tree*>& nodes);
 	std::vector<Tree*> getDescendants();
+	float dice(Tree* t1, Tree* t2, std::vector<std::pair<Tree*, Tree*>> M);
+	bool existsIsomorphic(Tree* t1, Tree* t2);
 
 private:
 	std::string m_value;

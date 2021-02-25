@@ -4,6 +4,7 @@
 
 #include "Tree.h"
 #include "HIPList.h"
+#include "Algorithm1.h"
 
 int main(int argc, char* argv[])
 {
@@ -106,23 +107,68 @@ int main(int argc, char* argv[])
 	hipList.open(t10);
 	hipList.print();
 #endif
+		//	t11	(A, A)						t21(F, F)
+	//		|								|		\
+	//	t12	(B, B)						t22	(G, G)	t23(A, A)
+	//		|		\						|			|
+	//	t13	(C, C)	t14(D, D)			t24(H, H)	t25(B, B)
+	//					|								|		\
+	//				t15(E, E)						t26(C, C)	t27(D, D)
+	//																|
+	//															t28(E, E)
+		Tree* t11 = new Tree("A", "A");
+		Tree* t12 = new Tree("B", "B");
+		Tree* t13 = new Tree("C", "C");
+		Tree* t14 = new Tree("D", "D");
+		Tree* t15 = new Tree("E", "E");
+		t11->addChildren(t12);
+		t12->addChildren(t13);
+		t12->addChildren(t14);
+		t14->addChildren(t15);
+		t12->setParent(t11);
+		t13->setParent(t12);
+		t14->setParent(t12);
+		t15->setParent(t14);
+		Tree* t21 = new Tree("F", "F");
+		Tree* t22 = new Tree("G", "G");
+		Tree* t23 = new Tree("A", "A");
+		Tree* t24 = new Tree("H", "H");
+		Tree* t25 = new Tree("B", "B");
+		Tree* t26 = new Tree("C", "C");
+		Tree* t27 = new Tree("D", "D");
+		Tree* t28 = new Tree("E", "E");
+		t21->addChildren(t22);
+		t21->addChildren(t23);
+		t22->addChildren(t24);
+		t23->addChildren(t25);
+		t25->addChildren(t26);
+		t25->addChildren(t27);
+		t27->addChildren(t28);
+		t22->setParent(t21);
+		t23->setParent(t21);
+		t24->setParent(t22);
+		t25->setParent(t23);
+		t26->setParent(t25);
+		t27->setParent(t25);
+		t28->setParent(t27);
+		HIPList L1;
+		HIPList L2;
+		int minHeight = 3;
+		std::vector<std::pair<Tree*, Tree*>> candidateMappings;
+		std::vector<std::pair<Tree*, Tree*>> resultMappings;
+		Algorithm1 algo;
+		algo.compute(t11, t23, minHeight, L1, L2, candidateMappings, resultMappings);
 
-	Tree* t11 = new Tree("A", "A");
-	Tree* t12 = new Tree("B", "B");
-	Tree* t13 = new Tree("C", "C");
-	Tree* t14 = new Tree("D", "D");
-	Tree* t15 = new Tree("E", "E");
-	t11->addChildren(t12);
-	t12->addChildren(t13);
-	t12->addChildren(t14);
-	t14->addChildren(t15);
-	std::vector<Tree*> descendants = t11->getDescendants();
-
-	std::wcout << "descendants: " << std::endl;
-	for (Tree* element : descendants)
-	{
-		std::cout << "(" << element->label() << ", " << element->value() << ")" << std::endl;
-	}
+		std::vector<std::pair<Tree*, Tree*>>::iterator mapIt;
+		for (mapIt = resultMappings.begin(); mapIt != resultMappings.end(); ++mapIt)
+		{
+			std::cout << "((" << (*mapIt).first->label() << ", " << (*mapIt).first->value() << ") (" << (*mapIt).second->label() << ", " << (*mapIt).second->value() << "))" << std::endl;
+		}
+		std::cout << "candidates: " << std::endl;
+		for (mapIt = candidateMappings.begin(); mapIt != candidateMappings.end(); ++mapIt)
+		{
+			std::cout << "((" << (*mapIt).first->label() << ", " << (*mapIt).first->value() << ") (" << (*mapIt).second->label() << ", " << (*mapIt).second->value() << "))" << std::endl;
+		}
 
 	return 0;
 }

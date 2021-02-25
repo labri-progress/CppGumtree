@@ -152,6 +152,31 @@ std::vector<Tree*> Tree::getDescendants()
 	return descendants;
 }
 
+float Tree::dice(Tree* t1, Tree* t2, std::vector<std::pair<Tree*, Tree*>> M)
+{
+	std::vector<std::pair<Tree*, Tree*>>::iterator MIt;
+	for (MIt = M.begin(); MIt != M.end(); ++MIt)
+	{
+		if ((*MIt).first == t1 && (*MIt).second == t2)
+		{
+			std::vector<Tree*> t1Desc = t1->getDescendants();
+			std::vector<Tree*> t2Desc = t2->getDescendants();
+			return (2 * (t1Desc.size())) / (t1Desc.size() + t2Desc.size());
+		}
+	}
+	return 0;
+}
+
+bool Tree::existsIsomorphic(Tree* t1, Tree* t2)
+{
+	std::vector<Tree*> T = postorder(this);
+	for (Tree* element : T)
+	{
+		return (t1->isomorphic(element) && element != t2);
+	}
+	return false;
+}
+
 void Tree::updateValue(Tree * n, std::string v)
 {
 	n->setValue(v);
