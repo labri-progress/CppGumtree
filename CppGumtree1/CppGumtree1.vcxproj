@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Algorithm1.h" />
+    <ClInclude Include="Algorithm2.h" />
     <ClInclude Include="HIPList.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Tree.h" />
@@ -159,6 +160,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Algorithm1.cpp" />
+    <ClCompile Include="Algorithm2.cpp" />
     <ClCompile Include="CppGumtree1.cpp" />
     <ClCompile Include="HIPList.cpp" />
     <ClCompile Include="pch.cpp">

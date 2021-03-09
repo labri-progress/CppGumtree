@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Tree.h"
+#include "TreePair.h"
 
 Tree::Tree()
 {
@@ -177,6 +178,50 @@ bool Tree::existsIsomorphic(Tree* t1, Tree* t2)
 	return false;
 }
 
+std::vector<Tree*> Tree::candidate(Tree* t1, std::vector<std::pair<Tree*, Tree*>>& map, int minDescMatch) // A tester
+{
+	std::vector<Tree*> result;
+	std::vector<Tree*> t2Nodes = this->preorder(this);
+	std::vector<std::pair<Tree*, Tree*>>::iterator mapIt;
+
+	if (TreePair::isMatched(t1, map))
+	{
+		for (Tree* t2 : t2Nodes)
+		{
+			if (t1->label() == t2->label() && !TreePair::isMatched(t2, map) && t2->hasSomeMatchingDesc(t1, minDescMatch, map))
+			{
+				result.push_back(t2);
+			}
+		}
+	}
+	return result;
+}
+
+bool Tree::hasSomeMatchingDesc(Tree* t,int minMatchDesc, std::vector<std::pair<Tree*, Tree*>> map)
+{
+	std::vector<std::pair<Tree*, Tree*>>::iterator mapIt;
+	std::vector<Tree*> t1Descs = t->getDescendants();
+	std::vector<Tree*> t2Descs = this->getDescendants();
+	int matchingDesc = 0;
+
+	for (Tree* t1Desc : t1Descs)
+	{
+		for (Tree* t2Desc : t2Descs)
+		{
+			if (TreePair::findPair(t1Desc, t2Desc, map))
+			{
+				matchingDesc++;
+				if (matchingDesc == minMatchDesc)
+				{
+					return true;
+				}
+			}
+		}
+	}
+
+	return false;
+}
+
 void Tree::updateValue(Tree * n, std::string v)
 {
 	n->setValue(v);
@@ -273,6 +318,7 @@ void Tree::move(Tree * tp, Tree * t, int i)
 void Tree::addChildren(Tree * c)
 {
 	m_childrens.push_front(c);
+	c->setParent(this);
 }
 
 void Tree::printRoot()

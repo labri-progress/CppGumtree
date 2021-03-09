@@ -7,6 +7,10 @@ struct TreePair
 	Tree* t2;
 	std::vector<std::pair<Tree*, Tree*>> mappings;
 	TreePair(Tree* tree1, Tree* tree2, std::vector<std::pair<Tree*, Tree*>>& M) : t1(tree1), t2(tree2), mappings(M) {}
+
+	static bool findPair(Tree* t1, Tree* t2, std::vector<std::pair<Tree*, Tree*>>& map);
+	static bool isMatched(Tree* t, std::vector < std::pair<Tree*, Tree*> >& map);
+	static bool hasMatchedChild(Tree* t, std::vector<std::pair<Tree*, Tree*>>& map);
 };
 
 struct dice_sort

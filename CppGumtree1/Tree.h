@@ -43,6 +43,8 @@ public:
 	std::vector<Tree*> getDescendants();
 	float dice(Tree* t1, Tree* t2, std::vector<std::pair<Tree*, Tree*>> M);
 	bool existsIsomorphic(Tree* t1, Tree* t2);
+	std::vector<Tree*> candidate(Tree* t1, std::vector<std::pair<Tree*, Tree*>>& map, int minDescMatch);
+	bool hasSomeMatchingDesc(Tree* t,int minMatchDesc, std::vector<std::pair<Tree*, Tree*>> map);
 
 private:
 	std::string m_value;

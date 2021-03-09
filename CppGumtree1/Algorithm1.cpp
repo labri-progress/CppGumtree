@@ -1,5 +1,5 @@
 #include "Algorithm1.h"
-#include "Util.h"
+#include "TreePair.h"
 #include <algorithm>
 
 void Algorithm1::compute(Tree* srcTree, Tree* dstTree, int minHeight, HIPList& L1, HIPList& L2, 
@@ -13,26 +13,18 @@ void Algorithm1::compute(Tree* srcTree, Tree* dstTree, int minHeight, HIPList& L
         {
             if (L1.peekMax() > L2.peekMax())
             {
-                int L1Size = L1.size();
-                for (int i = 0; i < L1Size; ++i)
+                std::vector<Tree*> trees = L1.pop();
+                for (Tree* element : trees)
                 {
-                    std::vector<Tree*> trees = L1.pop();
-                    for (Tree* element : trees)
-                    {
-                        L1.open(element);
-                    }
+                    L1.open(element);
                 }
             }
             else
             {
-                int L2Size = L2.size();
-                for (int i = 0; i < L2Size; ++i)
+                std::vector<Tree*> trees = L2.pop();
+                for (Tree* element : trees)
                 {
-                    std::vector<Tree*> trees = L2.pop();
-                    for (Tree* element : trees)
-                    {
-                        L2.open(element);
-                    }
+                    L2.open(element);
                 }
             }
         }
@@ -44,7 +36,7 @@ void Algorithm1::compute(Tree* srcTree, Tree* dstTree, int minHeight, HIPList& L
             {
                 for (Tree* t2 : H2)
                 {
-                    if (t1->isomorphic(t2))
+                     if (t1->isomorphic(t2))
                     {
                         if (dstTree->existsIsomorphic(t1, t2) || srcTree->existsIsomorphic(t2, t1))
                         {
@@ -81,30 +73,32 @@ void Algorithm1::compute(Tree* srcTree, Tree* dstTree, int minHeight, HIPList& L
             {
                 AUnionM = candidateMappings;
             }
-
-            for (Tree* t1 : H1) // à voir tx?
+            //Q
+            std::vector<Tree*> srcTreeNodes = srcTree->postorder(srcTree);
+            std::vector<Tree*> dstTreeNodes = dstTree->postorder(dstTree);
+            for (Tree* t1 : H1)
             {
-                for (Tree* tx : H2)
+                for (Tree* tx : dstTreeNodes)
                 {
-                    if (std::find(AUnionM.begin(), AUnionM.end(), std::pair<Tree*, Tree*>(t1, tx)) == AUnionM.end())
+                    if (!TreePair::findPair(t1, tx, AUnionM))
                     {
                         L1.open(t1);
                     }
                 }
             }
-            for (Tree* t2 : H2)
+            for (Tree* tx : srcTreeNodes)
             {
-                for (Tree* tx : H1)
+                for (Tree* t2 : H2)
                 {
-                    if (std::find(AUnionM.begin(), AUnionM.end(), std::pair<Tree*, Tree*>(tx, t2)) == AUnionM.end())
+                    if (!TreePair::findPair(tx, t2, AUnionM)) 
                     {
                         L2.open(t2);
                     }
                 }
             }
-
         }
     }
+    
     sort(candidateMappings.begin(), candidateMappings.end(), [resultMappings](const std::pair<Tree*, Tree*> pair1, const std::pair<Tree*, Tree*> pair2)
         {
             return pair1.first->dice(pair1.first, pair1.second, resultMappings) > pair2.first->dice(pair2.first, pair2.second, resultMappings);
